@@ -65,7 +65,7 @@ union ipv6_addrs {
 		rte_xmm_t src;
 		rte_xmm_t dst;
 	};
-};
+} __attribute__((packed, aligned(1)));
 
 union ip_addrs {
 	union ipv4_addrs v4;
