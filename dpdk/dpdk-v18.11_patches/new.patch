@@ -1,0 +1,56 @@
+diff --git a/lib/librte_eal/linuxapp/eal/eal_hugepage_info.c b/lib/librte_eal/linuxapp/eal/eal_hugepage_info.c
+index cf34d2aee..3e1e4f136 100644
+--- a/lib/librte_eal/linuxapp/eal/eal_hugepage_info.c
++++ b/lib/librte_eal/linuxapp/eal/eal_hugepage_info.c
+@@ -362,6 +362,25 @@ hugepage_info_init(void)
+	DIR *dir;
+	struct dirent *dirent;
+
++       if (internal_config.in_memory) {
++               struct hugepage_info *hpi;
++
++               RTE_LOG(INFO, EAL, "In-memory mode enabled, only use "
++                       "2MB-hugepages which will be allocated anonymously"
++                       ", 1GB per socket\n");
++
++               hpi = &internal_config.hugepage_info[0];
++               hpi->hugepage_sz = 2 * 1024 * 1024;
++
++               for (i = 0; i < rte_socket_count(); i++) {
++                       int socket = rte_socket_id_by_idx(i);
++                       hpi->num_pages[socket] =
++                               1024 * 1024 * 1024 / hpi->hugepage_sz;
++               }
++               num_sizes = 1;
++               goto check;
++       }
++
+	dir = opendir(sys_dir_path);
+	if (dir == NULL) {
+		RTE_LOG(ERR, EAL,
+@@ -438,6 +457,8 @@ hugepage_info_init(void)
+	if (dirent != NULL)
+		return -1;
+
++check:
++
+	internal_config.num_hugepage_sizes = num_sizes;
+
+	/* sort the page directory entries by size, largest to smallest */
+diff --git a/lib/librte_eal/linuxapp/eal/eal_memalloc.c b/lib/librte_eal/linuxapp/eal/eal_memalloc.c
+index f7cabe895..f920fbe0c 100644
+--- a/lib/librte_eal/linuxapp/eal/eal_memalloc.c
++++ b/lib/librte_eal/linuxapp/eal/eal_memalloc.c
+@@ -639,8 +639,13 @@ alloc_seg(struct rte_memseg *ms, void *addr, int socket_id,
+		int pagesz_flag, flags;
+
+		pagesz_flag = pagesz_flags(alloc_sz);
++#if 0
+		flags = pagesz_flag | MAP_HUGETLB | MAP_FIXED |
+				MAP_PRIVATE | MAP_ANONYMOUS;
++#else
++               RTE_SET_USED(pagesz_flag);
++               flags = MAP_FIXED | MAP_PRIVATE | MAP_ANONYMOUS;
++#endif
+		fd = -1;
+		mmap_flags = flags;

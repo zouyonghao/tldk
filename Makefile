@@ -22,6 +22,8 @@ endif
 
 RTE_TARGET ?= x86_64-native-linuxapp-gcc
 
+# RTE_TARGET = x86_64-native-linuxapp-clang
+
 DIRS-y += dpdk
 DIRS-y += lib
 DIRS-y += examples
@@ -44,6 +46,7 @@ all: $(DIRS-y)
 clean:
 	@make clean -C test/packetdrill
 	@rm -rf $(RTE_TARGET)
+	# NOTE: libdpdk.a is not deleted by this
 	@rm -rf libtldk.so libtldk.a
 
 .PHONY: $(DIRS-y)

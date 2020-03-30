@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.world": "xml",
+        "rte_vhost.h": "c"
+    }
+}

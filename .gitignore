@@ -1,8 +1,16 @@
-dpdk/_build/
+/dpdk/_build/
 dpdk/dpdk-*.tar.gz
+/dpdk/install/
 x86_64-native-linuxapp-gcc/
 .vagrant
 .project
 .idea
 .cproject
 .pydev*
+*.a
+*.so
+*.ll
+*.o
+log
+/test_fuzzer
+/test/packetdrill/packetdrill

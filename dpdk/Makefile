@@ -27,7 +27,7 @@ PACKETDRILL           ?= n
 B := $(DPDK_BUILD_DIR)
 I := $(DPDK_INSTALL_DIR)
 #DPDK_GIT_REPO ?= http://dpdk.org/git/dpdk -b v18.11
-DPDK_GIT_REPO ?= http://gitlab.alibaba-inc.com/nanovisor/DPDK.git
+DPDK_GIT_REPO ?= http://github.com/DPDK/dpdk.git
 DPDK_SOURCE := $(B)/dpdk
 
 ifneq (,$(findstring clang,$(CC)))
@@ -222,7 +222,9 @@ $(B)/.download.ok:
 	@if [ -e $(DPDK_SOURCE) ] ; \
 		then rm -rf $(DPDK_SOURCE) ; \
 	fi
-	@git clone $(DPDK_GIT_REPO) --branch $(DPDK_VERSION) $(DPDK_SOURCE)
+	# @git clone $(DPDK_GIT_REPO) --branch $(DPDK_VERSION) $(DPDK_SOURCE)
+	cp -r /home/zyh/Desktop/dpdk $(DPDK_SOURCE)
+	sleep 2
 	@touch $@
 
 .PHONY: download
@@ -235,6 +237,8 @@ ifneq ($(wildcard $(CURDIR)/dpdk-$(DPDK_VERSION)_patches/*.patch),)
 		echo Applying patch: $$(basename $$f) ; \
 		patch -p1 -d $(DPDK_SOURCE) < $$f ; \
 	done
+	# @echo --- patching new code ---
+	# patch -p0 -d $(DPDK_SOURCE) < $(CURDIR)/dpdk-$(DPDK_VERSION)_patches/code.txt
 endif
 	@touch $@
 
@@ -259,3 +263,4 @@ build: $(B)/.build.ok
 .PHONY: clean
 clean:
 	@rm -rf $(DPDK_BUILD_DIR) $(DPDK_DESTDIR)
+	rm */*/*.ll
