@@ -29,7 +29,7 @@ DIRS-y += lib
 DIRS-y += examples
 DIRS-y += test
 
-MAKEFLAGS += --no-print-directory
+MAKEFLAGS += --no-print-directory -g
 
 # output directory
 O ?= $(TLDK_ROOT)/${RTE_TARGET}

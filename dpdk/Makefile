@@ -20,7 +20,7 @@ DPDK_INSTALL_DIR      ?= $(DPDK_BUILD_DIR)/dpdk/$(RTE_TARGET)
 DPDK_PKTMBUF_HEADROOM ?= 128
 DPDK_MARCH            ?= native
 DPDK_TUNE             ?= generic
-DPDK_DEBUG            ?= n
+DPDK_DEBUG            ?= y
 DPDK_DESTDIR          ?= $(CURDIR)/install
 PACKETDRILL           ?= n
 
@@ -223,7 +223,7 @@ $(B)/.download.ok:
 		then rm -rf $(DPDK_SOURCE) ; \
 	fi
 	# @git clone $(DPDK_GIT_REPO) --branch $(DPDK_VERSION) $(DPDK_SOURCE)
-	cp -r /home/zyh/Desktop/dpdk $(DPDK_SOURCE)
+	cp -r /home/zyh/dpdk-18.11 $(DPDK_SOURCE)
 	sleep 2
 	@touch $@
 
@@ -263,4 +263,4 @@ build: $(B)/.build.ok
 .PHONY: clean
 clean:
 	@rm -rf $(DPDK_BUILD_DIR) $(DPDK_DESTDIR)
-	rm */*/*.ll
+	# rm */*/*.ll

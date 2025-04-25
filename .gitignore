@@ -14,3 +14,11 @@ x86_64-native-linuxapp-gcc/
 log
 /test_fuzzer
 /test/packetdrill/packetdrill
+/test_conzzer
+test/packetdrill/packet_to_string_test
+test/packetdrill/packet_parser_test
+test/packetdrill/parser.output
+test/packetdrill/parser.h
+test/packetdrill/parser.c
+test/packetdrill/lexer.c
+test/packetdrill/checksum_test

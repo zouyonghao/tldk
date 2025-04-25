@@ -31,6 +31,8 @@
 #include "internal.h"
 #include "sock.h"
 
+#include <linux/sockios.h>
+
 struct proto *supported_proto_ops[] = {
 	[PROTO_TCP] = &tcp_prot,
 	[PROTO_UDP] = &udp_prot,

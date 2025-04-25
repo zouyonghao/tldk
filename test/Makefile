@@ -21,9 +21,9 @@ endif
 
 include $(RTE_SDK)/mk/rte.vars.mk
 
-DIRS-y += dring
-DIRS-y += gtest
-DIRS-y += timer
+# DIRS-y += dring
+# DIRS-y += gtest
+# DIRS-y += timer
 
 ifeq ($(PACKETDRILL),y)
 DIRS-y += packetdrill
